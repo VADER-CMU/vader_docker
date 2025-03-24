@@ -6,6 +6,7 @@ RUN pip install numpy scipy
 # Planning packages
 RUN apt install nano ros-noetic-moveit -y 
 RUN pip install pyyaml dynamixel_sdk
-
+# Sim
+RUN apt install ros-noetic-ros-ign-gazebo -y
 #ROSDEP
 RUN rosdep update 
