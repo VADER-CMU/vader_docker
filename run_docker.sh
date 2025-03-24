@@ -9,4 +9,5 @@ docker run --privileged --rm -it \
     -v "/etc/localtime:/etc/localtime:ro" \
     -v "/dev:/dev" -v "/etc/timezone:/etc/timezone:ro" \
     --gpus all \
+    -w /home/docker_ws \
     vader_img bash

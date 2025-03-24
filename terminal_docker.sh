@@ -1,2 +1,2 @@
 xhost +local:docker
-docker exec -it vader_docker bash
+docker exec -it -w /home/docker_ws vader_docker bash 
