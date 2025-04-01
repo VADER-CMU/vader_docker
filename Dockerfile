@@ -7,7 +7,7 @@ RUN echo "alias cm='catkin_make'" >> ~/.bashrc
 RUN apt update && apt install python3-rosdep git python3-pip python3-catkin-tools -y
 RUN pip install numpy scipy 
 # Planning packages
-RUN apt install ros-noetic-combined-robot-hw nano ros-noetic-moveit -y 
+RUN apt install ros-noetic-combined-robot-hw nano ros-noetic-moveit ros-noetic-moveit-chomp-optimizer-adapter -y 
 RUN pip install pyyaml dynamixel_sdk
 
 # Sim
