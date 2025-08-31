@@ -3,6 +3,8 @@ docker run --privileged --rm -it \
     --name="vader_docker" \
     --env="DISPLAY=$DISPLAY" --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    --env="NVIDIA_DRIVER_CAPABILITIES=all" \
+    --env="NVIDIA_VISIBLE_DEVICES=all" \
     --volume="$XAUTH:$XAUTH" \
     --network host \
     -v "$(pwd)/docker_ws:/home/docker_ws" \
