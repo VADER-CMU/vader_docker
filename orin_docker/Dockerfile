@@ -1,0 +1,64 @@
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND=noninteractive
+
+# ------------------------------
+# Basic tools
+# ------------------------------
+RUN apt update && apt install -y \
+    curl \
+    gnupg2 \
+    lsb-release \
+    locales \
+    sudo \
+    software-properties-common \
+    && locale-gen en_US.UTF-8
+
+# ------------------------------
+# ROS Noetic setup
+# ------------------------------
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros1-latest.list'
+RUN apt update && apt install -y ros-noetic-desktop-full
+
+# ------------------------------
+# General Packages
+# ------------------------------
+RUN apt install -y nano git python3-pip python3-tk python3-rosdep python3-catkin-tools \
+    && rosdep init || true \
+    && rosdep update
+
+# ------------------------------
+# Perception Packages
+# ------------------------------
+RUN pip3 install --upgrade pip
+RUN pip3 install --ignore-installed numpy scipy matplotlib opencv-python pillow open3d ultralytics pyrealsense2
+RUN apt install -y ros-noetic-ddynamic-reconfigure ros-noetic-librealsense2
+
+# ------------------------------
+# Planning Packages
+# ------------------------------
+RUN pip3 install pyyaml dynamixel_sdk
+RUN apt install -y \
+    ros-noetic-combined-robot-hw \
+    ros-noetic-moveit \
+    ros-noetic-ros-controllers \
+    ros-noetic-ros-control \
+    ros-noetic-moveit-chomp-optimizer-adapter \
+    ros-noetic-moveit-visual-tools \
+    ros-noetic-tf2-sensor-msgs
+
+# ------------------------------
+# Simulation Packages
+# ------------------------------
+RUN apt install -y ros-noetic-joint-trajectory-controller
+
+# ------------------------------
+# Bash Setup
+# ------------------------------
+RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+RUN echo "alias sb='source devel/setup.bash'" >> ~/.bashrc
+RUN echo "alias cm='catkin_make'" >> ~/.bashrc
+RUN echo "alias rd='rosdep install --from-paths src -y --ignore-src'" >> ~/.bashrc
+
+CMD ["bash"]
+
