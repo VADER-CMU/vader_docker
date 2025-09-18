@@ -1,0 +1,18 @@
+[submodule "docker_ws/src/planning"]
+	path = docker_ws/src/planning
+	url = git@github.com:VADER-CMU/planning.git
+[submodule "docker_ws/src/vader_hri"]
+	path = docker_ws/src/vader_hri
+	url = git@github.com:VADER-CMU/vader_hri.git
+[submodule "docker_ws/src/vader_sim"]
+	path = docker_ws/src/vader_sim
+	url = git@github.com:VADER-CMU/vader_sim.git
+[submodule "docker_ws/src/vader_msgs"]
+	path = docker_ws/src/vader_msgs
+	url = git@github.com:VADER-CMU/vader_msgs.git
+[submodule "docker_ws/src/moveit"]
+	path = docker_ws/src/moveit
+	url = git@github.com:VADER-CMU/moveit.git
+[submodule "docker_ws/src/vader_dynamixel"]
+	path = docker_ws/src/vader_dynamixel
+	url = git@github.com:VADER-CMU/vader_dynamixel.git

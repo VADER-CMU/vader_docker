@@ -1,2 +1,4 @@
-docker_ws/*
+docker_ws/build/
+docker_ws/devel/
+docker_ws/src/CMakeLists.txt
 
