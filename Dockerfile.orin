@@ -1,62 +1,66 @@
-# Use the Jetson-specific ROS Noetic base image for L4T r35.4.1
-FROM dustynv/ros:noetic-ros-base-l4t-r35.4.1
-
-# Set the shell for subsequent RUN commands
-SHELL ["/bin/bash", "-c"]
-
-# Set environment variable to prevent interactive prompts during package installation
+FROM dustynv/l4t-ml:r35.4.1
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Add sourcing and convenient aliases to bashrc
-RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc && \
-    echo "alias sb='source devel/setup.bash'" >> ~/.bashrc && \
-    echo "alias cm='catkin_make'" >> ~/.bashrc && \
-    echo "alias rd='rosdep install --from-paths src -y --ignore-src'" >> ~/.bashrc
+RUN apt-get purge -y '*opencv*'
+# ------------------------------
+# Basic tools
+# ------------------------------
+RUN apt update && apt install -y \
+    curl \
+    gnupg2 \
+    lsb-release \
+    locales \
+    sudo \
+    software-properties-common \
+    && locale-gen en_US.UTF-8
 
-# Install general, perception, planning, and simulation packages from APT
-# This combines all apt-get calls into a single layer to optimize the image size
-RUN apt-get update && apt-get install -y \
-    # General packages
-    git \
-    nano \
-    python3-pip \
-    python3-rosdep \
-    python3-catkin-tools \
-    python3-tk \
-    # Perception packages
-    ros-noetic-ddynamic-reconfigure \
-    ros-noetic-librealsense2 \
-    # Planning packages
-    ros-noetic-moveit \
-    ros-noetic-ros-control \
-    ros-noetic-ros-controllers \
+# ------------------------------
+# ROS Noetic setup
+# ------------------------------
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros1-latest.list'
+RUN apt update && apt install -y ros-noetic-desktop-full
+
+# ------------------------------
+# General Packages
+# ------------------------------
+RUN apt install -y nano git python3-pip python3-tk python3-rosdep python3-catkin-tools \
+    && rosdep init || true \
+    && rosdep update
+
+# ------------------------------
+# Perception Packages
+# ------------------------------
+RUN pip3 install --upgrade pip
+RUN apt-get remove -y python3-blinker
+RUN pip3 install pillow open3d ultralytics pyrealsense2
+RUN apt install -y ros-noetic-ddynamic-reconfigure ros-noetic-librealsense2
+
+# ------------------------------
+# Planning Packages
+# ------------------------------
+RUN pip3 install pyyaml dynamixel_sdk
+RUN apt install -y \
     ros-noetic-combined-robot-hw \
+    ros-noetic-moveit \
+    ros-noetic-ros-controllers \
+    ros-noetic-ros-control \
     ros-noetic-moveit-chomp-optimizer-adapter \
     ros-noetic-moveit-visual-tools \
-    ros-noetic-tf2-sensor-msgs \
-    # Sim packages
-    ros-noetic-joint-trajectory-controller \
-    && rm -rf /var/lib/apt/lists/*
+    ros-noetic-tf2-sensor-msgs
 
-# Install all Python packages via pip in a single layer
-# Upgrading pip and setuptools first is a good practice
-RUN python3 -m pip install --upgrade pip setuptools && \
-    python3 -m pip install --no-cache-dir \
-    # Perception packages
-    opencv-python \
-    ultralytics \
-    pyrealsense2 \
-    matplotlib \
-    pillow \
-    pyyaml \
-    open3d \
-    numpy \
-    scipy \
-    # Planning packages
-    dynamixel_sdk
+# ------------------------------
+# Simulation Packages
+# ------------------------------
+RUN apt install -y ros-noetic-joint-trajectory-controller
 
-# Initialize rosdep
-RUN rosdep init && rosdep update
+# ------------------------------
+# Bash Setup
+# ------------------------------
+RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+RUN echo "alias sb='source devel/setup.bash'" >> ~/.bashrc
+RUN echo "alias cm='catkin_make'" >> ~/.bashrc
+RUN echo "alias rd='rosdep install --from-paths src -y --ignore-src'" >> ~/.bashrc
 
-# Set a default command to run when the container starts
 CMD ["bash"]
+
