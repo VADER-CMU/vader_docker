@@ -28,6 +28,7 @@ elif [[ "$ARCH" == "aarch64" ]]; then
     --network host \
     -e DISPLAY=$DISPLAY \
     -e QT_X11_NO_MITSHM=1 \
+    -v $HOME/.Xauthority:/root/.Xauthority:rw \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v "$(pwd)/docker_ws:/home/docker_ws" \
     -v /etc/localtime:/etc/localtime:ro \
