@@ -36,6 +36,14 @@ RUN apt-get remove -y python3-blinker
 RUN pip3 install pillow open3d ultralytics pyrealsense2
 RUN apt install -y ros-noetic-ddynamic-reconfigure ros-noetic-librealsense2
 
+# librealsense
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
+RUN add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
+RUN apt update && apt install -y \ 
+    librealsense2-utils \
+    librealsense2-dev
+
 # ------------------------------
 # Planning Packages
 # ------------------------------
