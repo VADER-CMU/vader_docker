@@ -20,8 +20,8 @@ if [[ "$ARCH" == "x86_64" ]]; then
     --gpus all \
     vader_img bash
 
-elif [[ "$ARCH" == "aarch64" ]]; then
-  echo "Detected aarch64 (ARM64) architecture. Running vader_img for Orin..."
+elif [[ "$ARCH" == "aarch64" ]] || [[ "$ARCH" == "arm64" ]]; then
+  echo "Detected aarch64 (ARM64) architecture. Running vader_img for MacOS/Orin..."
   docker run --privileged --rm -it \
     --name="vader_docker" \
     --runtime nvidia \

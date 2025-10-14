@@ -11,7 +11,7 @@ if [[ "$ARCH" == "x86_64" ]]; then
   echo "Detected x86_64 architecture. Building with Dockerfile.x86..."
   docker build -f ./vader_docker/Dockerfile.x86 ./vader_docker/ -t vader_img
 
-elif [[ "$ARCH" == "aarch64" ]]; then
+elif [[ "$ARCH" == "aarch64" ]] || [[ "$ARCH" == "arm64" ]]; then
   echo "Detected aarch64 (ARM64) architecture. Building with Dockerfile.orin..."
   docker build -f ./vader_docker/Dockerfile.orin ./vader_docker/ -t vader_img
 
