@@ -20,7 +20,7 @@ RUN pip install scipy
 # Planning packages
 RUN apt install ros-noetic-combined-robot-hw nano ros-noetic-moveit ros-noetic-ros-controllers ros-noetic-ros-control ros-noetic-moveit-chomp-optimizer-adapter ros-noetic-moveit-visual-tools ros-noetic-tf2-sensor-msgs -y 
 RUN pip install pyyaml dynamixel_sdk
-
+RUN apt install ros-noetic-trac-ik -y
 # Sim
 RUN apt install ros-noetic-joint-trajectory-controller -y
 #ROSDEP

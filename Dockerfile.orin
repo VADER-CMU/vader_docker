@@ -55,7 +55,8 @@ RUN apt install -y \
     ros-noetic-ros-control \
     ros-noetic-moveit-chomp-optimizer-adapter \
     ros-noetic-moveit-visual-tools \
-    ros-noetic-tf2-sensor-msgs
+    ros-noetic-tf2-sensor-msgs \
+    ros-noetic-trac-ik
 
 # ------------------------------
 # Simulation Packages
