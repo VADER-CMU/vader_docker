@@ -33,8 +33,9 @@ RUN apt install -y nano git python3-pip python3-tk python3-rosdep python3-catkin
 # ------------------------------
 RUN pip3 install --upgrade pip
 RUN apt-get remove -y python3-blinker
-RUN pip3 install pillow open3d ultralytics pyrealsense2
+RUN pip3 install pillow open3d pyrealsense2
 RUN apt install -y ros-noetic-ddynamic-reconfigure ros-noetic-librealsense2
+RUN pip install ultralytics --no-deps
 
 # librealsense
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || \
@@ -72,4 +73,3 @@ RUN echo "alias cm='catkin_make'" >> ~/.bashrc
 RUN echo "alias rd='rosdep install --from-paths src -y --ignore-src'" >> ~/.bashrc
 
 CMD ["bash"]
-
