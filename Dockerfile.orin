@@ -33,7 +33,7 @@ RUN apt install -y nano git python3-pip python3-tk python3-rosdep python3-catkin
 # ------------------------------
 RUN pip3 install --upgrade pip
 RUN apt-get remove -y python3-blinker
-RUN pip3 install pillow open3d pyrealsense2
+RUN pip3 install pillow open3d pyrealsense2 gdown
 RUN apt install -y ros-noetic-ddynamic-reconfigure ros-noetic-librealsense2
 RUN pip install ultralytics --no-deps
 
